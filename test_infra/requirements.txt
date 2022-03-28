@@ -1,0 +1,3 @@
+pulumi
+pulumi-eks
+pulumi-kubernetes

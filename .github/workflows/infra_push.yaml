@@ -1,0 +1,33 @@
+name: Deploy Pulumi IaC
+on: 
+  push:
+      paths:
+      - 'test_infra/**'
+jobs:
+  update:
+    name: Update
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-duration-seconds: 1200
+          role-session-name: PulumiSession
+      - run: pip install -r requirements.txt
+        working-directory: test_infra
+      - uses: pulumi/actions@v3
+        with:
+          command: up
+          stack-name: dev
+          work-dir: test_infra
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
