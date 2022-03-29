@@ -15,12 +15,13 @@
         $ docker run -d random-key $port
         ```
 * test_app/random-key.yaml
-    * Kubernetes manifest file for a deployment with 2 replicas of the random-key container with a LB service exposing the container on port 80.
+    * Kubernetes manifest file for deployment with 2 replicas of the random-key container and an LB service exposing the deployment on port 80.
         ```
         $ kubectl apply -f random-key.yaml
         ```
 ### Extra Curricular Componets
-* test_infra/[__main__.py
-    * Pulumi EKS cluster deployment
+* test_infra/__main__.py
+    * Pulumi EKS cluster IaC
 * .github/workflows/*.yaml
-    * Deploy Pulumi EKS stack or push new docker image to docker hub
+    * On push of specific paths deploys Pulumi EKS stack using OIDC
+    * On push of specific paths builds and pushes new docker image to docker hub
