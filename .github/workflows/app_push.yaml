@@ -3,6 +3,7 @@ on:
   push:
     paths:
     - 'test_app/Dockerfile'
+    - 'test_app/random-key.py'
 jobs:
   build:
     runs-on: ubuntu-latest
